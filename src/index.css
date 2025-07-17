@@ -2,21 +2,28 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
+/* Importa a fonte Poppins do Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+/* Reset básico de margens e paddings */
+* {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Aplica a fonte Poppins no corpo todo */
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: #fff; /* Pode ajustar se quiser outra cor padrão */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+/* Tailwind já cuida da maioria dos estilos, mas aqui fica para garantir que o app seja legível */
+html, body, #root {
+  height: 100%;
+  width: 100%;
 }
 
-.test-red {
-  @apply bg-red-500 text-white p-4;
-}
-
+/* Você pode adicionar aqui estilos customizados que queira para o projeto */
