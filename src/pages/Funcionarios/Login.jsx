@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Input from '../../components/Input'; // corrigido aqui
-import Botao from '../../components/Botao'; // corrigido aqui
 
 export default function Login() {
   const [usuario, setUsuario] = useState('');
@@ -20,11 +18,38 @@ export default function Login() {
   };
 
   return (
-    <form onSubmit={handleLogin} style={{ maxWidth: '300px', margin: '2rem auto' }}>
-      <h2>Login</h2>
-      <Input label="Usuário" valor={usuario} onChange={setUsuario} />
-      <Input label="Senha" valor={senha} onChange={setSenha} tipo="password" />
-      <Botao texto="Entrar" />
-    </form>
+    <div className="min-h-screen bg-pink-100 flex items-center justify-center">
+      <div className="bg-white p-8 rounded-2xl shadow-lg w-full max-w-md">
+        <h1 className="text-3xl font-bold text-center text-pink-700 mb-6">Thais Machado</h1>
+        <p className="text-center text-sm text-gray-600 mb-8">
+          Bem-vindo(a) ao salão. Faça login para continuar.
+        </p>
+
+        <form onSubmit={handleLogin} className="space-y-6">
+          <input
+            type="text"
+            placeholder="Usuário"
+            value={usuario}
+            onChange={(e) => setUsuario(e.target.value)}
+            className="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-pink-400"
+          />
+
+          <input
+            type="password"
+            placeholder="Senha"
+            value={senha}
+            onChange={(e) => setSenha(e.target.value)}
+            className="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-pink-400"
+          />
+          <button
+            type="submit"
+            className="w-full bg-pink-500 text-white py-3 rounded hover:bg-pink-600 transition"
+          >
+            Entrar
+          </button>
+        </form>
+      </div>
+    </div>
   );
 }
+
