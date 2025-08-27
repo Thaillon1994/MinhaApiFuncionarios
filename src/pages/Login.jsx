@@ -1,109 +1,110 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import Input from '../components/Input';
-import Botao from '../components/Botao';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import "./Login.css";
 
 export default function Login() {
-  const [modoCadastro, setModoCadastro] = useState(false);
-  const [nome, setNome] = useState('');
-  const [email, setEmail] = useState('');
-  const [senha, setSenha] = useState('');
-  const [endereco, setEndereco] = useState('');
   const navigate = useNavigate();
+  const [email, setEmail] = useState("");
+  const [senha, setSenha] = useState("");
+  const [erro, setErro] = useState("");
 
-  const handleLogin = (e) => {
-    e.preventDefault();
-    const user = JSON.parse(localStorage.getItem(email));
-
-    if (user && user.senha === senha) {
-      if (!user.verificado) {
-        alert('Seu e-mail ainda não foi verificado.');
-        navigate('/verificacao', { state: { email } });
-      } else {
-        localStorage.setItem('token', 'true');
-        localStorage.setItem('usuarioLogado', JSON.stringify(user));
-        navigate('/home');
-      }
-    } else {
-      alert('Email ou senha inválidos.');
-    }
-  };
-
-  const handleCadastro = (e) => {
-    e.preventDefault();
-
-    if (localStorage.getItem(email)) {
-      alert('Esse e-mail já está cadastrado.');
+  const handleLogin = () => {
+    if (!email || !senha) {
+      setErro("Preencha todos os campos!");
       return;
     }
 
-    const codigoVerificacao = Math.floor(100000 + Math.random() * 900000);
+    // Login fixo do admin
+    if (email === "admin1@admin.com" && senha === "1234") {
+      localStorage.setItem(
+        "usuarioLogado",
+        JSON.stringify({ email, tipo: "admin" })
+      );
+      navigate("/home-admin");
+      return;
+    }
 
-    const novoUsuario = {
-      nome,
-      email,
-      senha,
-      endereco,
-      role: email === 'admin@admin.com' ? 'admin' : 'cliente',
-      verificado: false,
-      codigoVerificacao,
-    };
+    // Login de usuários cadastrados
+    const usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
+    const usuarioEncontrado = usuarios.find(
+      (u) => u.email === email && u.senha === senha
+    );
 
-    localStorage.setItem(email, JSON.stringify(novoUsuario));
-    console.log(`Código de verificação enviado para o e-mail: ${codigoVerificacao}`);
-    alert('Código enviado! Confira seu e-mail (simulado).');
-    navigate('/verificacao', { state: { email } });
+    if (!usuarioEncontrado) {
+      setErro("Usuário ou senha inválidos!");
+      return;
+    }
+
+    localStorage.setItem("usuarioLogado", JSON.stringify(usuarioEncontrado));
+    navigate("/home-usuario");
   };
 
   return (
     <div
-      className="min-h-screen relative"
+      className="login-container"
       style={{
-        backgroundImage: "url('/salaothais.jpg')",
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat',
+        backgroundImage: `url(${process.env.PUBLIC_URL + "/salaothais.jpg"})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        minHeight: "100vh",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        fontFamily: "Segoe UI, Arial, sans-serif",
+        position: "relative",
+        padding: 20
       }}
     >
-      {/* Overlay escura para contraste */}
-      <div className="absolute inset-0 bg-black opacity-60"></div>
+      {/* Overlay rosa translúcido */}
+      <div
+        style={{
+          position: "absolute",
+          inset: 0,
+          backgroundColor: "rgba(255, 119, 192, 0.4)",
+          zIndex: 0
+        }}
+      ></div>
 
-      <div className="relative z-10 flex items-center justify-center min-h-screen px-4">
-        <div className="w-full max-w-md bg-white bg-opacity-90 rounded-2xl shadow-xl p-8">
-          <div className="text-center mb-6">
-            <h1 className="text-3xl font-bold text-pink-600">Salão Thais Machado</h1>
-            <p className="text-sm text-gray-700">
-              {modoCadastro ? 'Cadastre-se para agendar seu horário' : 'Acesse sua conta'}
-            </p>
-          </div>
+      <div className="login-form">
+        <h2>Salão Thais Machado</h2>
 
-          <form
-            onSubmit={modoCadastro ? handleCadastro : handleLogin}
-            className="space-y-4"
+        <label>
+          Email:
+          <input
+            type="email"
+            placeholder="Digite seu email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+        </label>
+
+        <label>
+          Senha:
+          <input
+            type="password"
+            placeholder="Digite sua senha"
+            value={senha}
+            onChange={(e) => setSenha(e.target.value)}
+          />
+        </label>
+
+        {erro && <p className="error-message">{erro}</p>}
+
+        <button
+          onClick={handleLogin}
+        >
+          Entrar
+        </button>
+
+        <p style={{ marginTop: 15, textAlign: "center" }}>
+          Ainda não tem cadastro?{" "}
+          <span
+            onClick={() => navigate("/cadastro")}
+            style={{ color: "#ff77c0", fontWeight: "bold", cursor: "pointer" }}
           >
-            {modoCadastro && (
-              <>
-                <Input label="Nome" valor={nome} onChange={setNome} />
-                <Input label="Endereço" valor={endereco} onChange={setEndereco} />
-              </>
-            )}
-            <Input label="Email" valor={email} onChange={setEmail} tipo="email" />
-            <Input label="Senha" valor={senha} onChange={setSenha} tipo="password" />
-            <Botao texto={modoCadastro ? 'Cadastrar' : 'Entrar'} type="submit" />
-          </form>
-
-          <div className="text-center mt-4">
-            <button
-              type="button"
-              onClick={() => setModoCadastro(!modoCadastro)}
-              className="text-sm text-pink-600 hover:underline"
-            >
-              {modoCadastro
-                ? 'Já tem uma conta? Faça login'
-                : 'Novo por aqui? Cadastre-se'}
-            </button>
-          </div>
-        </div>
+            Cadastre-se
+          </span>
+        </p>
       </div>
     </div>
   );

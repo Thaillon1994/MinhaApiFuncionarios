@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../../services/api';
-import Input from '../../components/Input';
-import Botao from '../../components/Botao';
-
+import Input from '../../Components/Input';
+import Botao from '../../Components/Botao';
 
 export default function CadastrarFuncionario() {
   const [nome, setNome] = useState('');

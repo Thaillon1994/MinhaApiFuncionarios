@@ -1,0 +1,30 @@
+/* CSS base para a página de cadastro de clientes */
+
+.cadastro-container {
+  font-family: Arial, sans-serif;
+  color: white;
+}
+
+.btn-primary {
+  background-color: #db2777; /* Rosa padrão */
+  border: none;
+  padding: 10px 16px;
+  border-radius: 8px;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.btn-primary:hover {
+  background-color: #be185d;
+}
+
+ul li strong {
+  display: block;
+  margin-top: 4px;
+}
+
+ul li {
+  font-size: 14px;
+}

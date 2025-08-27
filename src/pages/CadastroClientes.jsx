@@ -1,118 +1,145 @@
-import React, { useEffect, useState } from 'react';
+// Importa React e hooks necessários
+import React, { useEffect, useState } from "react";
+// Importa hook para navegação entre páginas
+import { useNavigate } from "react-router-dom";
+// Importa CSS específico da página
+import "./CadastroClientes.css";
+import "./Home.css";
+import "./Cadastro.css";
+
 
 export default function CadastroClientes() {
-  const [clientes, setClientes] = useState([]);
-  const [clienteEditando, setClienteEditando] = useState(null);
-  const [modalAberto, setModalAberto] = useState(false);
+  const navigate = useNavigate();               // Hook para navegação
+  const [usuario, setUsuario] = useState(null); // Estado do usuário logado
+  const [clientes, setClientes] = useState([]); // Estado para lista de clientes
 
+  // useEffect executa quando a página monta
   useEffect(() => {
-    carregarClientes();
-  }, []);
-
-  const carregarClientes = () => {
-    const todosUsuarios = Object.keys(localStorage)
-      .filter((chave) => {
-        try {
-          const user = JSON.parse(localStorage.getItem(chave));
-          return user && user.role === 'cliente';
-        } catch {
-          return false;
-        }
-      })
-      .map((chave) => JSON.parse(localStorage.getItem(chave)));
-
-    setClientes(todosUsuarios);
-  };
-
-  const handleExcluir = (email) => {
-    const confirmacao = window.confirm('Tem certeza que deseja excluir este cliente?');
-    if (confirmacao) {
-      localStorage.removeItem(email);
-      carregarClientes();
+    const user = JSON.parse(localStorage.getItem("usuarioLogado"));
+    if (!user) {
+      navigate("/login"); // Redireciona caso não haja usuário
+      return;
     }
-  };
+    setUsuario(user);
 
-  const handleEditar = (cliente) => {
-    setClienteEditando({ ...cliente }); // cria uma cópia
-    setModalAberto(true);
-  };
+    // Simulação de dados de clientes (substituir pela API real)
+    const fakeClientes = [
+      { id: 1, nome: "João Silva", email: "joao@email.com", telefone: "11999999999" },
+      { id: 2, nome: "Maria Oliveira", email: "maria@email.com", telefone: "11988888888" },
+    ];
+    setClientes(fakeClientes);
+  }, [navigate]);
 
-  const handleSalvarEdicao = () => {
-    localStorage.setItem(clienteEditando.email, JSON.stringify(clienteEditando));
-    setModalAberto(false);
-    carregarClientes();
-  };
+  // Verifica se o usuário é admin
+  const isAdmin = usuario?.email === "admin1@admin.com";
+
+  // Função para excluir cliente
+  function handleExcluir(id) {
+    if (window.confirm("Deseja realmente excluir este cliente?")) {
+      setClientes((prev) => prev.filter(c => c.id !== id));
+      // Aqui chamaria API para excluir no backend
+    }
+  }
+
+  // Função para editar cliente
+  function handleEditar(id) {
+    alert(`Editar cliente id: ${id}`);
+    // Aqui poderia abrir modal ou redirecionar para página de edição
+  }
 
   return (
-    <div className="p-6 bg-gray-100 min-h-screen">
-      <h1 className="text-3xl font-bold mb-6 text-center">Clientes Cadastrados</h1>
+    <div
+      className="cadastro-container"
+      style={{
+        minHeight: "100vh",
+        backgroundImage: "url('/salaothais.jpg')",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        color: "white",
+        padding: 20,
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+      }}
+    >
+      {/* Overlay para escurecer fundo */}
+      <div
+        style={{
+          position: "absolute",
+          inset: 0,
+          backgroundColor: "rgba(0,0,0,0.6)",
+          zIndex: 0,
+        }}
+      />
 
-      <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
+      {/* Conteúdo principal */}
+      <div
+        style={{
+          position: "relative",
+          zIndex: 1,
+          maxWidth: 600,
+          width: "100%",
+          margin: "0 auto",
+          backgroundColor: "rgba(255,255,255,0.1)",
+          borderRadius: 12,
+          padding: 20,
+        }}
+      >
+        <h1 style={{ textAlign: "center", marginBottom: 20 }}>Clientes Cadastrados</h1>
+
+        {/* Lista de clientes */}
         {clientes.length === 0 ? (
-          <p className="col-span-full text-center text-gray-500">Nenhum cliente cadastrado.</p>
+          <p style={{ textAlign: "center" }}>Nenhum cliente cadastrado.</p>
         ) : (
-          clientes.map((cliente) => (
-            <div key={cliente.email} className="bg-white p-4 rounded-lg shadow space-y-2">
-              <h2 className="text-xl font-semibold">{cliente.nome}</h2>
-              <p><strong>Email:</strong> {cliente.email}</p>
-              <p><strong>Endereço:</strong> {cliente.endereco}</p>
-              <div className="flex gap-2 mt-2">
-                <button
-                  className="bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600"
-                  onClick={() => handleEditar(cliente)}
-                >
-                  Editar
-                </button>
-                <button
-                  className="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700"
-                  onClick={() => handleExcluir(cliente.email)}
-                >
-                  Excluir
-                </button>
-              </div>
-            </div>
-          ))
-        )}
-      </div>
+          <ul style={{ listStyle: "none", padding: 0 }}>
+            {clientes.map((c) => (
+              <li
+                key={c.id}
+                style={{
+                  backgroundColor: "rgba(255,255,255,0.15)",
+                  borderRadius: 8,
+                  marginBottom: 12,
+                  padding: 12,
+                  display: "flex",
+                  flexDirection: "column",
+                }}
+              >
+                <strong>Nome:</strong> {c.nome}
+                <strong>Email:</strong> {c.email}
+                <strong>Telefone:</strong> {c.telefone}
 
-      {/* Modal de edição */}
-      {modalAberto && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white p-6 rounded shadow-lg w-full max-w-md">
-            <h2 className="text-xl font-bold mb-4">Editar Cliente</h2>
-            <div className="space-y-3">
-              <input
-                type="text"
-                value={clienteEditando.nome}
-                onChange={(e) => setClienteEditando({ ...clienteEditando, nome: e.target.value })}
-                className="w-full px-4 py-2 border rounded"
-                placeholder="Nome"
-              />
-              <input
-                type="text"
-                value={clienteEditando.endereco}
-                onChange={(e) => setClienteEditando({ ...clienteEditando, endereco: e.target.value })}
-                className="w-full px-4 py-2 border rounded"
-                placeholder="Endereço"
-              />
-              <div className="flex justify-end gap-3 mt-4">
-                <button
-                  onClick={() => setModalAberto(false)}
-                  className="px-4 py-2 bg-gray-400 text-white rounded hover:bg-gray-500"
-                >
-                  Cancelar
-                </button>
-                <button
-                  onClick={handleSalvarEdicao}
-                  className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700"
-                >
-                  Salvar
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
+                {/* Botões apenas para admin */}
+                {isAdmin && (
+                  <div style={{ marginTop: 8, display: "flex", gap: 10 }}>
+                    <button
+                      onClick={() => handleEditar(c.id)}
+                      className="btn-primary"
+                    >
+                      Editar
+                    </button>
+                    <button
+                      onClick={() => handleExcluir(c.id)}
+                      className="btn-primary"
+                      style={{ backgroundColor: "#f87171" }}
+                    >
+                      Excluir
+                    </button>
+                  </div>
+                )}
+              </li>
+            ))}
+          </ul>
+        )}
+
+        {/* Botão para voltar à Home */}
+        <button
+          onClick={() => navigate("/")}
+          className="btn-primary"
+          style={{ marginTop: 20 }}
+        >
+          Voltar para Home
+        </button>
+      </div>
     </div>
   );
 }

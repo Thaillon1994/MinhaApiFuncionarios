@@ -1,42 +1,41 @@
+// Importa React (necessário para JSX)
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+// Importa os componentes do React Router para navegação
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
+// Importação das páginas do projeto
 import Home from './pages/Home';
-import CadastroClientes from './pages/CadastroClientes';
-import Agendamento from './pages/Agendamento';
+import AgendamentoHorario from './pages/AgendamentoHorario';
+import AgendamentosMarcados from './pages/AgendamentosMarcados';
 import Caixa from './pages/Caixa';
 import Login from './pages/Login';
-import Verificacao from './pages/Verificacao';
-import PrivateRouteAdmin from './components/PrivateRouteAdmin';
+import Perfil from './pages/Perfil'; // Página de informações do usuário
 
 export default function App() {
   return (
+    // Router encapsula todas as rotas do projeto
     <Router>
       <Routes>
-        <Route path="/" element={<Login />} />
-        <Route path="/verificacao" element={<Verificacao />} />
-        <Route path="/home" element={<Home />} />
-        <Route path="/agendamento" element={<Agendamento />} />
+        {/* Página de login: rota principal de acesso */}
+        <Route path="/login" element={<Login />} />
 
-        {/* Rotas protegidas somente para admin */}
-        <Route
-          path="/cadastro-clientes"
-          element={
-            <PrivateRouteAdmin>
-              <CadastroClientes />
-            </PrivateRouteAdmin>
-          }
-        />
-        <Route
-          path="/caixa"
-          element={
-            <PrivateRouteAdmin>
-              <Caixa />
-            </PrivateRouteAdmin>
-          }
-        />
+        {/* Página inicial/Home do sistema */}
+        <Route path="/" element={<Home />} />
 
-        <Route path="*" element={<Navigate to="/" replace />} />
+        {/* Página para agendar horário */}
+        <Route path="/agendamento" element={<AgendamentoHorario />} />
+
+        {/* Página que lista os agendamentos marcados */}
+        <Route path="/agendamentos-marcados" element={<AgendamentosMarcados />} />
+
+        {/* Página de Caixa (restrita ao admin) */}
+        <Route path="/caixa" element={<Caixa />} />
+
+        {/* Página de Perfil do usuário: mostra informações do cliente */}
+        <Route path="/perfil" element={<Perfil />} />
+
+        {/* Qualquer rota inválida será redirecionada para Home */}
+        <Route path="*" element={<Home />} />
       </Routes>
     </Router>
   );

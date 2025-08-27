@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import Input from '../components/Input';
-import Botao from '../components/Botao';
+import Input from '../Components/Input';
+import Botao from '../Components/Botao';
+
 
 export default function Verificacao() {
   const [codigo, setCodigo] = useState('');

@@ -1,0 +1,71 @@
+/* Home.css */
+
+/* Container principal com fundo rose */
+.home-container {
+  background-color: #ffe4e6; /* Fundo rose claro */
+  min-height: 100vh;
+  padding: 20px;
+  font-family: "Segoe UI", Arial, sans-serif;
+}
+
+/* Título da página */
+.home-container h1 {
+  text-align: center;
+  margin-bottom: 30px;
+  color: #db2777;
+}
+
+/* Container de botões */
+.home-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+/* Botões gerais */
+.home-buttons button {
+  padding: 12px 20px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 16px;
+  color: #fff;
+  transition: background-color 0.3s ease;
+}
+
+/* Botão admin */
+.home-buttons .admin-btn {
+  background-color: #db2777;
+}
+
+.home-buttons .admin-btn:hover {
+  background-color: #a21caf;
+}
+
+/* Botão usuário/agendamento */
+.home-buttons .user-btn {
+  background-color: #f472b6;
+}
+
+.home-buttons .user-btn:hover {
+  background-color: #d946ef;
+}
+
+/* Botão sair */
+.home-buttons .logout-btn {
+  background-color: #6b7280;
+}
+
+.home-buttons .logout-btn:hover {
+  background-color: #4b5563;
+}
+
+/* Mensagem de boas-vindas */
+.home-welcome {
+  margin-top: 40px;
+  text-align: center;
+  font-size: 18px;
+  color: #111827;
+}

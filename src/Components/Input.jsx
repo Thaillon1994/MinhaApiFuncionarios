@@ -14,3 +14,4 @@ export default function Input({ label, valor, onChange, tipo = 'text' }) {
   );
 }
 
+

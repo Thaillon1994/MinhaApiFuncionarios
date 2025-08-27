@@ -1,0 +1,68 @@
+/* Container principal com fundo rosa claro */
+.cadastro-container {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f3c1d9; /* Rosa claro */
+  padding: 20px;
+}
+
+/* Formulário centralizado */
+.cadastro-form {
+  background-color: rgba(255, 255, 255, 0.95);
+  padding: 30px 40px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: 100%;
+  max-width: 400px;
+}
+
+/* Título do formulário */
+.cadastro-form h1 {
+  text-align: center;
+  color: #db2777; /* Rosa escuro */
+  margin-bottom: 20px;
+}
+
+/* Campos de input */
+.cadastro-form input {
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+  outline: none;
+  transition: border-color 0.3s;
+}
+
+.cadastro-form input:focus {
+  border-color: #db2777;
+}
+
+/* Botão de cadastro */
+.btn-primary {
+  background-color: #db2777;
+  color: white;
+  font-weight: bold;
+  border: none;
+  padding: 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s;
+}
+
+.btn-primary:hover {
+  background-color: #a21c56;
+}
+
+/* Mensagem de sucesso */
+.success-msg {
+  color: green;
+  text-align: center;
+  font-weight: bold;
+  margin-top: 10px;
+}

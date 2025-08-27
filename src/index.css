@@ -1,29 +1,99 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* index.css */
 
-/* Importa a fonte Poppins do Google Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
-
-/* Reset básico de margens e paddings */
-* {
+/* Reset básico */
+body, html, #root {
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
-}
-
-/* Aplica a fonte Poppins no corpo todo */
-body {
-  font-family: 'Poppins', sans-serif;
-  background-color: #fff; /* Pode ajustar se quiser outra cor padrão */
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-/* Tailwind já cuida da maioria dos estilos, mas aqui fica para garantir que o app seja legível */
-html, body, #root {
   height: 100%;
-  width: 100%;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #ffe4ec; /* fundo rosa suave */
+  color: #333;
 }
 
-/* Você pode adicionar aqui estilos customizados que queira para o projeto */
+/* Container geral para centralizar conteúdo */
+.container {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+/* Botões principais */
+button {
+  background-color: #db2777; /* pink padrão */
+  color: white;
+  border: none;
+  padding: 0.7rem 1.5rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+  display: inline-block;
+  text-align: center;
+}
+
+button:hover {
+  background-color: #be185d; /* tom mais escuro */
+}
+
+/* Inputs, selects e textarea */
+input, select, textarea {
+  width: 100%;
+  border: 1.5px solid #db2777;
+  border-radius: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  font-size: 1rem;
+  font-family: inherit;
+  box-sizing: border-box;
+  margin-top: 0.25rem;
+  margin-bottom: 1rem;
+  outline-color: #db2777;
+}
+
+/* Labels */
+label {
+  font-weight: 600;
+  color: #be185d;
+}
+
+/* Links */
+a {
+  color: #db2777;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* Títulos */
+h1, h2, h3, h4, h5 {
+  color: #be185d;
+  font-weight: 700;
+}
+
+/* Mensagens de erro, aviso, ou instruções */
+.message {
+  font-style: italic;
+  color: #9f1239; /* vermelho escuro */
+  margin-bottom: 1rem;
+}
+
+/* Containers com fundo branco semi-transparente (para usar sobre imagens) */
+.bg-white-transparent {
+  background-color: rgba(255, 255, 255, 0.85);
+  padding: 1.5rem;
+  border-radius: 1rem;
+  box-shadow: 0 0 10px rgba(219, 39, 119, 0.3);
+}
+
+/* Para textos centralizados */
+.text-center {
+  text-align: center;
+}
+
+/* Outros estilos que podem ser usados */
+.mb-4 {
+  margin-bottom: 1rem;
+}

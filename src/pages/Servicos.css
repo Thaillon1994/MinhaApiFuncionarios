@@ -1,0 +1,67 @@
+/* Container principal da página */
+.home-container {
+  font-family: 'Arial', sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  min-height: 100vh;
+  color: white;
+  position: relative;
+}
+
+/* Título principal da página */
+.home-title {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+/* Botões secundários (Home, Logout, Editar, Excluir) */
+.btn-secondary {
+  background-color: #db2777; /* Rosa padrão do salão */
+  border: none;
+  padding: 10px 15px;
+  border-radius: 10px;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s;
+}
+
+.btn-secondary:hover {
+  background-color: #be185d; /* Rosa mais escuro ao passar o mouse */
+}
+
+/* Cards de agendamento */
+.agendamento-card {
+  background-color: rgba(255, 255, 255, 0.9);
+  color: #100d0dff;
+  padding: 15px;
+  border-radius: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Container dos botões dentro do card */
+.agendamento-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+/* Responsividade: reduz o tamanho do card em telas menores */
+@media (max-width: 600px) {
+  .agendamento-card {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .agendamento-actions {
+    flex-direction: row;
+    width: 100%;
+    justify-content: flex-end;
+  }
+}

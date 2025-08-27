@@ -1,66 +1,111 @@
-import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import "./Home.css";
 
 export default function Home() {
+  const navigate = useNavigate();
   const [usuario, setUsuario] = useState(null);
 
   useEffect(() => {
-    const user = JSON.parse(localStorage.getItem('usuarioLogado'));
+    const user = JSON.parse(localStorage.getItem("usuarioLogado"));
+    if (!user) {
+      navigate("/login");
+      return;
+    }
     setUsuario(user);
-  }, []);
+  }, [navigate]);
 
-  const isAdmin = usuario?.email === 'admin1@admin.com';
+  const isAdmin = usuario?.tipo === "admin";
 
   return (
     <div
-      className="min-h-screen relative bg-gradient-to-br from-pink-100 via-pink-200 to-pink-300"
       style={{
-        backgroundImage: "url('/salaothais.jpg')",
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat',
+        backgroundColor: "#ffe4e6", // Fundo rose claro
+        minHeight: "100vh",
+        padding: 20,
+        fontFamily: "Segoe UI, Arial, sans-serif"
       }}
     >
-      {/* Overlay escuro para legibilidade */}
-      <div className="absolute inset-0 bg-black opacity-50"></div>
+      <h1 style={{ textAlign: "center", marginBottom: 30 }}>
+        {isAdmin ? "Home Admin" : "Home Usuário"}
+      </h1>
 
-      {/* Conteúdo principal */}
-      <div className="relative z-10 flex flex-col items-center justify-center min-h-screen p-8 space-y-8 text-white max-w-md mx-auto text-center">
-        <h1 className="text-5xl font-extrabold tracking-wide drop-shadow-lg">
-          Início
-        </h1>
-        <p className="text-lg font-medium drop-shadow-md">
-          Bem-vindo(a)! Escolha uma opção abaixo:
-        </p>
+      <div style={{ display: "flex", justifyContent: "center", gap: 20 }}>
+        {isAdmin && (
+          <>
+            <button
+              onClick={() => navigate("/cadastro-clientes")}
+              style={{
+                backgroundColor: "#db2777",
+                color: "white",
+                padding: "12px 20px",
+                borderRadius: 10,
+                border: "none",
+                cursor: "pointer",
+                fontWeight: "600"
+              }}
+            >
+              Cadastro de Clientes
+            </button>
 
-        <nav className="w-full space-y-6">
-          {/* Só mostra para admin */}
-          {isAdmin && (
-            <>
-              <Link
-                to="/cadastro-clientes"
-                className="block w-full px-6 py-3 bg-pink-700 rounded-lg shadow-md hover:bg-pink-800 hover:scale-105 transform transition"
-              >
-                Cadastro de Clientes
-              </Link>
-              <Link
-                to="/caixa"
-                className="block w-full px-6 py-3 bg-pink-700 rounded-lg shadow-md hover:bg-pink-800 hover:scale-105 transform transition"
-              >
-                Caixa
-              </Link>
-            </>
-          )}
+            <button
+              onClick={() => navigate("/caixa")}
+              style={{
+                backgroundColor: "#db2777",
+                color: "white",
+                padding: "12px 20px",
+                borderRadius: 10,
+                border: "none",
+                cursor: "pointer",
+                fontWeight: "600"
+              }}
+            >
+              Caixa
+            </button>
+          </>
+        )}
 
-          {/* Todos podem ver */}
-          <Link
-            to="/agendamento"
-            className="block w-full px-6 py-3 bg-pink-600 bg-opacity-80 rounded-lg shadow-md hover:bg-pink-700 hover:scale-105 transform transition"
-          >
-            Agendamento de Horários
-          </Link>
-        </nav>
+        <button
+          onClick={() => navigate("/agendamentos")}
+          style={{
+            backgroundColor: "#f472b6",
+            color: "white",
+            padding: "12px 20px",
+            borderRadius: 10,
+            border: "none",
+            cursor: "pointer",
+            fontWeight: "600"
+          }}
+        >
+          Meus Agendamentos
+        </button>
+
+        <button
+          onClick={() => {
+            localStorage.removeItem("usuarioLogado");
+            navigate("/login");
+          }}
+          style={{
+            backgroundColor: "#6b7280",
+            color: "white",
+            padding: "12px 20px",
+            borderRadius: 10,
+            border: "none",
+            cursor: "pointer",
+            fontWeight: "600"
+          }}
+        >
+          Sair
+        </button>
       </div>
+
+      {usuario && (
+        <div style={{ marginTop: 40, textAlign: "center" }}>
+          <p>
+            Bem-vindo(a), <strong>{usuario.nome || usuario.email}</strong>!
+          </p>
+        </div>
+      )}
     </div>
   );
 }
