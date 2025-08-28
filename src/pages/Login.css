@@ -1,110 +1,98 @@
-/* Login.css */
+/* Login.css - Estilo para Login.jsx */
 
-/* Container principal com fundo da imagem e overlay rosa */
-/* Container do formulário */
+/* Container do formulário (glassmorphism) */
 .login-form {
   position: relative;
-  z-index: 1; /* Acima do overlay */
-  background-color: rgba(255, 255, 255, 0.15); /* Transparência branca */
+  z-index: 1;
+  background-color: rgba(255, 255, 255, 0.12);
   border-radius: 16px;
-  padding: 35px 28px;
-  max-width: 400px;
+  padding: 36px 28px;
+  max-width: 420px;
   width: 100%;
   color: #fff;
-  box-shadow: 0 4px 25px rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(8px); /* efeito glassmorphism */
+  box-shadow: 0 6px 30px rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(8px);
 }
 
-/* Título do formulário */
+/* título */
 .login-form h2 {
   text-align: center;
-  margin-bottom: 25px;
-  font-size: 28px;
-  font-weight: bold;
+  margin-bottom: 22px;
+  font-size: 26px;
+  font-weight: 800;
   color: #fff;
 }
 
-/* Labels */
+/* labels */
 .login-form label {
   display: block;
-  margin-top: 15px;
-  font-size: 16px;
-  font-weight: 500;
+  margin-top: 12px;
+  font-size: 15px;
   color: #fff;
+  font-weight: 600;
 }
 
-/* Inputs */
+/* inputs */
 .login-form input {
   width: 100%;
   padding: 12px;
-  margin-top: 5px;
+  margin-top: 6px;
   border-radius: 8px;
-  border: 1px solid #fff;
+  border: 1px solid rgba(255, 255, 255, 0.12);
   font-size: 15px;
   outline: none;
-  transition: 0.3s;
-  background-color: rgba(255, 255, 255, 0.05);
+  background-color: rgba(255,255,255,0.03);
   color: #fff;
+  transition: box-shadow 0.18s, border-color 0.18s;
 }
 
 .login-form input::placeholder {
-  color: rgba(255, 255, 255, 0.7);
+  color: rgba(255,255,255,0.6);
 }
 
 .login-form input:focus {
   border-color: #ff77c0;
-  box-shadow: 0 0 6px rgba(255, 119, 192, 0.6);
+  box-shadow: 0 0 8px rgba(255,119,192,0.28);
 }
 
-/* Botão */
+/* botão */
 .login-form button {
   width: 100%;
   padding: 14px;
-  margin-top: 25px;
+  margin-top: 18px;
   border-radius: 10px;
   border: none;
-  background-color: #ff77c0;
+  background-color: #ff77c0; /* rosa claro */
   color: #fff;
-  font-weight: bold;
+  font-weight: 800;
   font-size: 16px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: transform 0.12s, background-color 0.18s;
 }
 
 .login-form button:hover {
-  background-color: #e055a0;
+  transform: translateY(-2px);
+  background-color: #e055a0; /* rosa mais escuro */
 }
 
-/* Link para cadastro */
-.login-form .link-cadastro {
-  display: block;
-  text-align: center;
-  margin-top: 18px;
-  color: #fff;
-  font-weight: 600;
-  text-decoration: underline;
-  cursor: pointer;
-  font-size: 15px;
-}
-
-/* Mensagem de erro */
-.login-form .error-message {
-  margin-top: 10px;
-  color: #f87171;
-  font-size: 14px;
+/* erro */
+.error-message {
+  margin-top: 12px;
+  color: #ffb4b4;
+  font-weight: 700;
   text-align: center;
 }
 
-/* Responsividade */
-@media screen and (max-width: 480px) {
+/* responsividade */
+@media (max-width: 480px) {
   .login-form {
     padding: 22px;
   }
   .login-form h2 {
-    font-size: 24px;
+    font-size: 22px;
   }
   .login-form button {
-    font-size: 15px;
     padding: 12px;
+    font-size: 15px;
   }
 }
