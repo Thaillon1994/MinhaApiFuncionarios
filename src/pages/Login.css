@@ -1,98 +1,99 @@
-/* Login.css - Estilo para Login.jsx */
+/* Login.css - mantém estética rosa + glassmorphism */
 
-/* Container do formulário (glassmorphism) */
+/* raiz com imagem de fundo (usa public/salaothais.jpg) e fallback rosa */
+.login-root {
+  min-height: 100vh;
+  background-color: #ffd6ec; /* fallback */
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  font-family: "Segoe UI", Arial, sans-serif;
+}
+
+/* overlay translúcido para leitura do formulário */
+.login-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+}
+
+/* form estilizado (glass) */
 .login-form {
   position: relative;
   z-index: 1;
-  background-color: rgba(255, 255, 255, 0.12);
-  border-radius: 16px;
-  padding: 36px 28px;
-  max-width: 420px;
   width: 100%;
+  max-width: 420px;
+  background: rgba(255,255,255,0.08);
+  border-radius: 14px;
+  padding: 32px;
+  box-shadow: 0 6px 30px rgba(0,0,0,0.45);
+  backdrop-filter: blur(6px);
   color: #fff;
-  box-shadow: 0 6px 30px rgba(0, 0, 0, 0.45);
-  backdrop-filter: blur(8px);
 }
 
-/* título */
 .login-form h2 {
   text-align: center;
-  margin-bottom: 22px;
-  font-size: 26px;
-  font-weight: 800;
-  color: #fff;
+  margin-bottom: 16px;
+  color: #ffb6db;
 }
 
-/* labels */
 .login-form label {
   display: block;
   margin-top: 12px;
-  font-size: 15px;
-  color: #fff;
   font-weight: 600;
+  font-size: 14px;
 }
 
-/* inputs */
 .login-form input {
   width: 100%;
-  padding: 12px;
+  padding: 10px 12px;
   margin-top: 6px;
   border-radius: 8px;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  font-size: 15px;
-  outline: none;
-  background-color: rgba(255,255,255,0.03);
-  color: #fff;
-  transition: box-shadow 0.18s, border-color 0.18s;
-}
-
-.login-form input::placeholder {
-  color: rgba(255,255,255,0.6);
-}
-
-.login-form input:focus {
-  border-color: #ff77c0;
-  box-shadow: 0 0 8px rgba(255,119,192,0.28);
-}
-
-/* botão */
-.login-form button {
-  width: 100%;
-  padding: 14px;
-  margin-top: 18px;
-  border-radius: 10px;
   border: none;
-  background-color: #ff77c0; /* rosa claro */
+  background: rgba(255,255,255,0.06);
   color: #fff;
-  font-weight: 800;
-  font-size: 16px;
-  cursor: pointer;
-  transition: transform 0.12s, background-color 0.18s;
+  font-size: 15px;
 }
 
-.login-form button:hover {
-  transform: translateY(-2px);
-  background-color: #e055a0; /* rosa mais escuro */
-}
-
-/* erro */
 .error-message {
-  margin-top: 12px;
-  color: #ffb4b4;
+  margin-top: 10px;
+  color: #ffc4c4;
   font-weight: 700;
   text-align: center;
 }
 
-/* responsividade */
+.small-line {
+  margin-top: 14px;
+  text-align: center;
+  color: rgba(255,255,255,0.85);
+}
+
+.link-like {
+  color: #ff77c0;
+  font-weight: 800;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+/* botão primário rosa consistente */
+.btn-primary {
+  width: 100%;
+  padding: 12px;
+  margin-top: 14px;
+  border-radius: 10px;
+  border: none;
+  background: #db2777;
+  color: white;
+  font-weight: 800;
+  cursor: pointer;
+}
+.btn-primary:hover { background: #a21c56; }
+
+/* responsivo */
 @media (max-width: 480px) {
-  .login-form {
-    padding: 22px;
-  }
-  .login-form h2 {
-    font-size: 22px;
-  }
-  .login-form button {
-    padding: 12px;
-    font-size: 15px;
-  }
+  .login-form { padding: 22px; }
 }

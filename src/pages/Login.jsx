@@ -4,122 +4,103 @@ import { useNavigate } from "react-router-dom";
 import "./Login.css";
 
 /*
-  Página de Login:
-  - Faz validações simples de formulário
-  - Usuário admin fixo: admin1@admin.com / 1234
-  - Usuários registrados são lidos do localStorage (chave "usuarios")
-  - Ao logar, salva 'usuarioLogado' no localStorage e navega para a home apropriada
+  Login.jsx
+  - permite login do admin fixo (admin1@admin.com / 1234)
+  - valida usuários cadastrados em localStorage (chave "usuarios")
+  - salva o usuário logado em localStorage na chave "usuarioLogado"
 */
 export default function Login() {
-  const navigate = useNavigate(); // Hook para navegação programática
-  const [email, setEmail] = useState(""); // armazena email digitado
-  const [senha, setSenha] = useState(""); // armazena senha digitada
-  const [erro, setErro] = useState("");   // mensagem de erro exibida na tela
+  const navigate = useNavigate();
 
-  // Função acionada ao clicar no botão Entrar
-  const handleLogin = () => {
-    // validação básica: campos obrigatórios
+  // estados controlados para form
+  const [email, setEmail] = useState("");
+  const [senha, setSenha] = useState("");
+  const [erro, setErro] = useState("");
+
+  // função chamada ao submeter o login
+  const handleLogin = (e) => {
+    e?.preventDefault?.();
+
+    // valida campos
     if (!email || !senha) {
       setErro("Preencha todos os campos!");
       return;
     }
 
-    // login fixo do admin (teste)
+    // login fixo do admin (para testes / permissões)
     if (email === "admin1@admin.com" && senha === "1234") {
-      // salva usuário logado no localStorage com campo tipo: 'admin'
-      localStorage.setItem("usuarioLogado", JSON.stringify({ nome: "Admin", email, tipo: "admin" }));
-      navigate("/home-admin"); // você pode criar essa rota depois
+      // salva no localStorage um objeto representando o admin
+      localStorage.setItem(
+        "usuarioLogado",
+        JSON.stringify({ nome: "Administrador", email, tipo: "admin" })
+      );
+      navigate("/home");
       return;
     }
 
-    // busca usuários salvos no localStorage (registro via /cadastro)
+    // busca usuários cadastrados no localStorage (array 'usuarios')
     const usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
     const usuarioEncontrado = usuarios.find((u) => u.email === email && u.senha === senha);
 
     if (!usuarioEncontrado) {
-      // se não achou, mostra erro
       setErro("Usuário ou senha inválidos!");
       return;
     }
 
-    // se achou, salva e navega para a home do usuário
+    // salva o usuário encontrado e navega para Home
     localStorage.setItem("usuarioLogado", JSON.stringify(usuarioEncontrado));
-    navigate("/home-usuario"); // crie essa rota/arquivo conforme necessidade
+    navigate("/home");
   };
 
   return (
     <div
-      className="login-container"
-      // Fundo vindo da pasta public: process.env.PUBLIC_URL garante caminho correto
+      className="login-root"
+      /* background com fallback cor rosa caso imagem falhe */
       style={{
         backgroundImage: `url(${process.env.PUBLIC_URL + "/salaothais.jpg"})`,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        minHeight: "100vh",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        position: "relative",
-        padding: 20,
-        fontFamily: "Segoe UI, Arial, sans-serif",
       }}
     >
-      {/* Overlay rosa translúcido para legibilidade */}
-      <div
-        style={{
-          position: "absolute",
-          inset: 0,
-          backgroundColor: "rgba(255, 119, 192, 0.36)",
-          zIndex: 0,
-        }}
-      />
+      {/* overlay para contraste */}
+      <div className="login-overlay" />
 
-      {/* Formulário (estilizado em Login.css) */}
-      <div className="login-form" role="form" aria-label="Formulário de login" style={{ zIndex: 1 }}>
+      <form className="login-form" onSubmit={handleLogin} aria-label="form-login">
         <h2>Salão Thais Machado</h2>
 
         <label>
-          Email:
+          Email
           <input
             type="email"
-            placeholder="Digite seu email"
             value={email}
+            placeholder="seu@email.com"
             onChange={(e) => setEmail(e.target.value)}
-            aria-label="Email"
+            required
+            aria-label="email"
           />
         </label>
 
         <label>
-          Senha:
+          Senha
           <input
             type="password"
-            placeholder="Digite sua senha"
             value={senha}
+            placeholder="sua senha"
             onChange={(e) => setSenha(e.target.value)}
-            aria-label="Senha"
+            required
+            aria-label="senha"
           />
         </label>
 
-        {/* Se tiver erro, mostra mensagem */}
         {erro && <p className="error-message" role="alert">{erro}</p>}
 
-        {/* Botão de ação */}
-        <button onClick={handleLogin} aria-label="Entrar">Entrar</button>
+        <button className="btn-primary" type="submit">Entrar</button>
 
-        {/* Link para cadastro — navega para /cadastro */}
-        <p style={{ marginTop: 15, textAlign: "center" }}>
+        <p className="small-line">
           Ainda não tem cadastro?{" "}
-          <span
-            onClick={() => navigate("/cadastro")}
-            style={{ color: "#ff77c0", fontWeight: "700", cursor: "pointer" }}
-            role="link"
-            tabIndex={0}
-            onKeyDown={(e) => { if (e.key === "Enter") navigate("/cadastro"); }}
-          >
+          <span className="link-like" onClick={() => navigate("/cadastro")} role="link" tabIndex={0}>
             Cadastre-se
           </span>
         </p>
-      </div>
+      </form>
     </div>
   );
 }

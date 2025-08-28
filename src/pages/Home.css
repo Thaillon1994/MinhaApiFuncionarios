@@ -1,71 +1,75 @@
-/* Home.css */
+/* Home.css - mantém coerência com o resto do app */
 
-/* Container principal com fundo rose */
-.home-container {
-  background-color: #ffe4e6; /* Fundo rose claro */
+/* root com fallback e imagem */
+.home-root {
   min-height: 100vh;
-  padding: 20px;
-  font-family: "Segoe UI", Arial, sans-serif;
+  background-color: #ffd6ec;
+  background-image: url('/public/salaothais.jpg');
+  background-position: center;
+  background-size: cover;
+  position: relative;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
 }
 
-/* Título da página */
-.home-container h1 {
-  text-align: center;
-  margin-bottom: 30px;
-  color: #db2777;
+/* leve overlay para contraste */
+.home-overlay { position:absolute; inset:0; background: rgba(0,0,0,0.5); }
+
+/* card central (conteúdo) */
+.home-card {
+  position:relative;
+  z-index:1;
+  width:100%;
+  max-width:1100px;
+  background: rgba(255,255,255,0.06);
+  border-radius:14px;
+  padding:20px;
+  color:#fff;
+  backdrop-filter: blur(6px);
+  box-shadow:0 8px 40px rgba(0,0,0,0.6);
 }
 
-/* Container de botões */
-.home-buttons {
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-  flex-wrap: wrap;
+/* topo */
+.home-top {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
 }
 
-/* Botões gerais */
-.home-buttons button {
-  padding: 12px 20px;
-  border-radius: 10px;
-  border: none;
-  cursor: pointer;
-  font-weight: 600;
-  font-size: 16px;
-  color: #fff;
-  transition: background-color 0.3s ease;
-}
+.home-title { font-size:28px; color:#db2777; margin:0; font-weight:800; }
+.home-subtitle { color:#c59d5f; margin:0; }
 
-/* Botão admin */
-.home-buttons .admin-btn {
-  background-color: #db2777;
+/* topo buttons */
+.home-top-buttons { display:flex; gap:10px; }
+.btn-secondary {
+  background:#6b7280; color:white; padding:8px 12px; border-radius:10px; border:none; font-weight:700; cursor:pointer;
 }
+.btn-secondary:hover { background:#4b5563; }
 
-.home-buttons .admin-btn:hover {
-  background-color: #a21caf;
+/* main layout */
+.home-main { display:flex; gap:24px; margin-top:18px; align-items:flex-start; }
+
+/* coluna de botões */
+.buttons-column { display:flex; flex-direction:column; gap:12px; width:320px; }
+.btn-primary {
+  background:#db2777; color:white; padding:12px; border-radius:10px; border:none; font-weight:800; text-align:center; text-decoration:none; display:inline-block;
 }
+.btn-primary:hover { background:#a21c56; }
+.btn-primary.outline { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.08); }
 
-/* Botão usuário/agendamento */
-.home-buttons .user-btn {
-  background-color: #f472b6;
-}
+/* welcome box */
+.home-welcome { flex:1; padding:8px 12px; }
+.welcome-sub { color: #f5e9e9; }
+.note-admin { color:#ffd6a6; font-weight:700; }
 
-.home-buttons .user-btn:hover {
-  background-color: #d946ef;
-}
+/* footer */
+.home-footer { margin-top:20px; border-top: 1px solid rgba(255,255,255,0.06); padding-top:12px; display:flex; justify-content:space-between; align-items:center; color:#fff; }
+.footer-links a { margin-left:12px; color:#c59d5f; text-decoration:none; font-weight:700; }
 
-/* Botão sair */
-.home-buttons .logout-btn {
-  background-color: #6b7280;
-}
-
-.home-buttons .logout-btn:hover {
-  background-color: #4b5563;
-}
-
-/* Mensagem de boas-vindas */
-.home-welcome {
-  margin-top: 40px;
-  text-align: center;
-  font-size: 18px;
-  color: #111827;
+/* responsivo */
+@media (max-width: 800px) {
+  .home-main { flex-direction:column; align-items:center; }
+  .buttons-column { width:100%; max-width:420px; }
 }

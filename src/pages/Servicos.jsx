@@ -1,94 +1,57 @@
+// src/pages/Servicos.jsx
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "./Servicos.css"; // CSS específico para a página
+import "./Servicos.css";
 
 export default function Servicos() {
   const navigate = useNavigate();
   const [usuario, setUsuario] = useState(null);
   const [agendamentos, setAgendamentos] = useState([]);
 
-  // Ao montar, verifica se há usuário logado
   useEffect(() => {
-    const user = JSON.parse(localStorage.getItem("usuarioLogado"));
-    if (!user) {
-      navigate("/login");
-      return;
-    }
-    setUsuario(user);
+    const u = JSON.parse(localStorage.getItem("usuarioLogado"));
+    if (!u) { navigate("/"); return; }
+    setUsuario(u);
 
-    // Apenas admin vê os agendamentos
-    if (user.email === "admin1@admin.com") {
-      // Exemplo fictício
-      setAgendamentos([
-        { id: 1, cliente: "Maria", servico: "Corte", data: "2025-08-26", hora: "14:00" },
-        { id: 2, cliente: "João", servico: "Escova", data: "2025-08-27", hora: "10:00" },
-      ]);
-    }
+    // Apenas admin vê
+    if (u.tipo !== "admin" && u.email !== "admin1@admin.com") return;
+
+    const todos = JSON.parse(localStorage.getItem("agendamentos")) || [];
+    setAgendamentos(todos);
   }, [navigate]);
 
-  const handleLogout = () => {
-    localStorage.removeItem("usuarioLogado");
-    navigate("/login");
-  };
-
-  const handleExcluir = (id) => {
-    // Simulação de exclusão
-    setAgendamentos(prev => prev.filter(a => a.id !== id));
-  };
+  if (!usuario) return null;
+  if (usuario.tipo !== "admin" && usuario.email !== "admin1@admin.com") {
+    return <div style={{ padding:20 }}>Acesso restrito. Apenas administradores.</div>;
+  }
 
   return (
-    <div
-      className="home-container"
-      style={{
-        backgroundImage: "url('/salaothais.jpg')",
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        minHeight: "100vh",
-        color: "white",
-        padding: 20,
-      }}
-    >
-      {/* Botões topo */}
-      <div style={{ width: "100%", display: "flex", justifyContent: "space-between", marginBottom: 20 }}>
-        <button className="btn-secondary" onClick={() => navigate("/")} aria-label="Voltar à Home">
-          Home
-        </button>
-        <button className="btn-secondary" onClick={handleLogout} aria-label="Logout">
-          Logout
-        </button>
-      </div>
-
-      <h1 className="home-title">Agendamentos</h1>
-
-      {usuario?.email !== "admin1@admin.com" && <p>Acesso restrito. Apenas administradores podem visualizar.</p>}
-
-      {usuario?.email === "admin1@admin.com" && (
-        <div style={{ display: "flex", flexDirection: "column", gap: 15, marginTop: 20 }}>
-          {agendamentos.map((a) => (
-            <div key={a.id} className="agendamento-card">
+    <div className="serv-root">
+      <div className="serv-card">
+        <h2>Serviços — Agenda (Admin)</h2>
+        {agendamentos.length === 0 && <p>Nenhum agendamento.</p>}
+        <div className="serv-list">
+          {agendamentos.map(a => (
+            <div key={a.id} className="serv-item">
               <div>
-                <p><strong>Cliente:</strong> {a.cliente}</p>
-                <p><strong>Serviço:</strong> {a.servico}</p>
-                <p><strong>Data:</strong> {a.data}</p>
-                <p><strong>Hora:</strong> {a.hora}</p>
+                <div><strong>{a.servicos.join(", ")}</strong></div>
+                <div>{a.nome} — {a.data} {a.hora}</div>
               </div>
-              <div className="agendamento-actions">
-                <button className="btn-secondary" onClick={() => alert("Editar agendamento " + a.id)}>Editar</button>
-                <button className="btn-secondary" onClick={() => handleExcluir(a.id)}>Excluir</button>
+              <div>
+                <button className="btn-secondary" onClick={()=>alert("Editar " + a.id)}>Editar</button>
+                <button className="btn-secondary" onClick={()=>{
+                  const todos = JSON.parse(localStorage.getItem("agendamentos")) || [];
+                  const filtrados = todos.filter(x=>x.id !== a.id);
+                  localStorage.setItem("agendamentos", JSON.stringify(filtrados));
+                  setAgendamentos(prev => prev.filter(x=>x.id !== a.id));
+                }}>Excluir</button>
               </div>
             </div>
           ))}
         </div>
-      )}
 
-      {/* Botão adicional para voltar para Home no final da página */}
-      <button 
-        className="btn-secondary" 
-        style={{ marginTop: 30, width: "200px", alignSelf: "center" }}
-        onClick={() => navigate("/")}
-      >
-        Voltar para Home
-      </button>
+        <button className="btn-primary" onClick={()=>navigate("/home")}>Voltar</button>
+      </div>
     </div>
   );
 }
